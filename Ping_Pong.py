@@ -33,17 +33,19 @@ class Player(GameSprite):
         if keys[K_DOWN] and self.rect.y < 415:
             self.rect.y += self.speed
 class Ball(GameSprite):
+    def __init__(self, player_image, player_x, player_y, player_speed_x, w, h, player_speed_y):
+        super().__init__(player_image, player_x, player_y, player_speed_x, w, h)
+        self.speed_y = player_speed_y
     
     def update(self):
         self.rect.x += self.speed
-        self.rect.y += self.speed
-        '''if self.rect.y <= 25 or self.rect.y >= 485:
-            self.dir *= -1
-'''
+        self.rect.y += self.speed_y
+        
+
 raket_1 = Player('raket.png', 40, 230, 15, 15, 100)
 raket_2 = Player('raket.png', 900, 230, 15, 15, 100)
-ball = Ball('ball.png', 50, 50, 20, 30, 30)
-
+ball = Ball('ball.png', 50, 50, 5, 30, 30, 5)
+#sprite.collide_rect(a,b)
 while game:
     for e in event.get():
         if e.type == QUIT:
@@ -55,5 +57,8 @@ while game:
     raket_2.update_r()
     ball.reset()
     ball.update()
+    if ball.rect.y < 25 or ball.rect.y > 485:
+        ball.speed_y *= -1
+    
     display.update()
-    time.delay(50)
+    time.delay(10)
